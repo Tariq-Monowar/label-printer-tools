@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>FeetF1rst Print</title>
+  <style>
+    :root {
+      --bg: #f6f8f7; --card: #ffffff; --line: #e3e8e6; --text: #0f1f1a; --muted: #6b7c76;
+      --accent: #059669; --accent-soft: #ecfdf5; --danger: #dc2626; --danger-soft: #fef2f2;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1412; --card: #151e1b; --line: #24302c; --text: #e8f0ed; --muted: #8a9a94;
+        --accent: #10b981; --accent-soft: #10b98120; --danger: #f87171; --danger-soft: #f8717120;
+        color-scheme: dark;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      font: 13px/1.45 "Segoe UI Variable", "Segoe UI", -apple-system, system-ui, sans-serif;
+      background: var(--bg); color: var(--text); padding: 20px; display: grid; gap: 14px;
+      user-select: none; -webkit-user-select: none;
+    }
+    header { display: flex; align-items: center; gap: 12px; }
+    header img { width: 40px; height: 40px; }
+    h1 { font-size: 16px; font-weight: 650; }
+    .status { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .status.error .dot { background: var(--danger); box-shadow: 0 0 0 3px var(--danger-soft); }
+    .status.error { color: var(--danger); }
+    section { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 10px; }
+    .label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .row { display: flex; gap: 8px; }
+    select, button {
+      font: inherit; color: inherit; border-radius: 8px; border: 1px solid var(--line); background: var(--bg);
+      height: 34px; padding: 0 10px;
+    }
+    select { flex: 1; min-width: 0; }
+    button { cursor: pointer; white-space: nowrap; }
+    button:hover { border-color: var(--accent); }
+    button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; width: 100%; }
+    button.primary:hover { filter: brightness(1.08); }
+    button:disabled { opacity: .6; cursor: default; }
+    .hint { font-size: 12px; color: var(--muted); }
+    ul { list-style: none; padding: 0; display: grid; max-height: 190px; overflow-y: auto; }
+    li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); }
+    li:first-child { border-top: 0; }
+    .badge { width: 20px; height: 20px; flex: none; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700;
+      background: var(--accent-soft); color: var(--accent); }
+    li.failed .badge { background: var(--danger-soft); color: var(--danger); }
+    .job { flex: 1; min-width: 0; }
+    .job b { font-weight: 600; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .job small { color: var(--muted); }
+    li.failed small { color: var(--danger); }
+    .empty { color: var(--muted); text-align: center; padding: 14px 0; }
+    footer { text-align: center; font-size: 11px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="icon.png" alt="" />
+    <div>
+      <h1>FeetF1rst Print</h1>
+      <div class="status" id="status"><span class="dot"></span><span id="status-text">Bereit für Labels</span></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="label">Drucker</div>
+    <div class="row">
+      <select id="printer"></select>
+      <button id="refresh" title="Drucker neu suchen">↻</button>
+    </div>
+    <p class="hint">Papier im Druckertreiber auf 101,6 × 152,4 mm (4 × 6") stellen.</p>
+    <button class="primary" id="test">Testdruck</button>
+  </section>
+
+  <section>
+    <div class="label">Letzte Drucke</div>
+    <ul id="jobs"></ul>
+  </section>
+
+  <footer id="footer">Läuft im Hintergrund · Fenster schließen beendet den Druck nicht</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
