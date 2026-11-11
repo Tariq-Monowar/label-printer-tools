@@ -3,8 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "dev": "node init && tauri dev",
-    "build": "node init && tauri build"
+    "dev": "tauri dev",
+    "build": "tauri build"
   },
   "devDependencies": {
     "@tauri-apps/cli": "2.9.6"
